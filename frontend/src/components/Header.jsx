@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
+import { Modal, Button } from 'react-bootstrap';
+import { useState } from 'react';
 
 const Header = () => {
     const { userInfo } = useSelector(state => state.auth);
@@ -13,12 +15,22 @@ const Header = () => {
     const navigate = useNavigate();
 
     const [logoutApiCall] = useLogoutMutation();
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
 
+    const handleShowLogoutModal = () => {
+      setShowLogoutModal(true);
+    };
+  
+    const handleCloseLogoutModal = () => {
+      setShowLogoutModal(false);
+    };
+  
     const logoutHandler = async () => {
         try {
             await logoutApiCall().unwrap();
             dispatch(logout());
             navigate('/');
+            handleCloseLogoutModal();
         } catch (err) {
             console.log(err);
         }
@@ -56,7 +68,7 @@ const Header = () => {
             </LinkContainer>
           </div>
 
-        <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+        <NavDropdown.Item onClick={handleShowLogoutModal}>Logout</NavDropdown.Item>
       </NavDropdown>
     </>
   ) : (
@@ -79,6 +91,20 @@ const Header = () => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+            <Modal show={showLogoutModal} onHide={handleCloseLogoutModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Logout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to log out?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseLogoutModal}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={logoutHandler}>
+            Logout
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </header >
     );
 };

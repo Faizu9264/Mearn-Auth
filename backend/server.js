@@ -21,6 +21,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => res.send("Server is ready!"));
 

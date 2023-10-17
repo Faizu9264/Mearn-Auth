@@ -17,6 +17,7 @@ const RegisterScreen = () => {
     const [name,setName] = useState('')
     const [password,setPassword ] = useState('')
     const [confirmPassword,setConfirmPassword ] = useState('')
+    
 
     const navigate = useNavigate();
     const dispatch  = useDispatch();

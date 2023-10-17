@@ -7,24 +7,45 @@ import {useLoginMutation} from '../slices/usersApiSlice';
 import{setCredentials} from '../slices/authSlice'
 import {toast} from 'react-toastify'
 import Loader from "../components/Loader";
-
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import './LoginScreen.css';
 
 const LoginScreen = () => {
+
     const [email,setEmail] = useState('')
     const [password,setPassword ] = useState('')
-    
+    const [passwordVisible, setPasswordVisible] = useState(false);
+
     const navigate = useNavigate();
     const dispatch  = useDispatch();
     
     const [login, {isLoading}] = useLoginMutation();
 
     const {userInfo} = useSelector((state)=>state.auth)
+    const passwordStyles = {
+      passwordInput: {
+        position: 'relative'
+      },
+      passwordToggle: {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        right: '10px',
+        cursor: 'pointer'
+      }
+    };
+    
     
     useEffect(()=>{
       if(userInfo){
         navigate('/')
       }
     },[navigate,userInfo])
+
+    const togglePasswordVisibility = () => {
+      setPasswordVisible(!passwordVisible);
+    };
+    
 
     const isValidEmail = (email) => {
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -63,15 +84,21 @@ const LoginScreen = () => {
       </Form.Group>
 
       <Form.Group className="my-2" controlId="password">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-        type="password"
-        placeholder="Enter Password"
-        value={password}
-        onChange={(e)=>{ setPassword(e.target.value)}}
-        >
-        </Form.Control>
-      </Form.Group>
+  <Form.Label>Password</Form.Label>
+  <div style={passwordStyles.passwordInput}>
+    <Form.Control
+      type={passwordVisible ? "text" : "password"}
+      placeholder="Enter Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    <div style={passwordStyles.passwordToggle} onClick={togglePasswordVisibility}>
+      {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+    </div>
+  </div>
+</Form.Group>
+
+
        {isLoading && <Loader/>}
       <Button type="submit" variant="primary" className="mt-3">
         Sign In

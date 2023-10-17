@@ -20,7 +20,6 @@ cloudinary.v2.config({
 //@access   Public
 const authAdmin = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-
     const admin = await Admin.findOne({ email });
     if (admin && (await admin.matchPassword(password))) {
         generateToken(res, admin._id, 'adminJwt');

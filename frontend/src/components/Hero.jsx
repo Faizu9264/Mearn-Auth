@@ -9,7 +9,7 @@ const Hero = () => {
     <div className=' py-5'>
       <Container className='d-flex justify-content-center'>
         <Card className='p-5 d-flex flex-column align-items-center hero-card bg-light w-75'>
-          <h2 className='text-center mb-4'>Welcome {userInfo.name}</h2>
+          <h2 className='text-center mb-4'>Welcome {userInfo?userInfo.name:''}</h2>
           {/* <p className='text-center mb-4'>
             This is a boilerplate for MERN authentication that stores a JWT in
             an HTTP-Only cookie. It also uses Redux Toolkit and the React
@@ -17,7 +17,7 @@ const Hero = () => {
           </p> */}
           <img
             src={'https://media.tenor.com/rePDfDWO3XoAAAAd/hacking.gif'} 
-            alt={userInfo.name}
+            alt={userInfo?userInfo.name:''}
             style={{
               width: '310px',
               height: '170px',
@@ -25,6 +25,9 @@ const Hero = () => {
             }}
             className=""
           />
+
+          {userInfo?'':
+          
           <div className='d-flex' style={{marginTop: '15px'}}>
             <LinkContainer to='/login' >
             <Button variant='primary' className='me-3'>
@@ -37,6 +40,7 @@ const Hero = () => {
             </Button>
             </LinkContainer>
           </div>
+          }
         </Card>
       </Container>
     </div>
