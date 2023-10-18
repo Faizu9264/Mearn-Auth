@@ -8,7 +8,7 @@ import{setCredentials} from '../slices/authSlice'
 import {toast} from 'react-toastify'
 import Loader from "../components/Loader";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import './LoginScreen.css';
+
 
 const LoginScreen = () => {
 
@@ -71,6 +71,7 @@ const LoginScreen = () => {
     return ( 
     <FormContainer>
       <h1>Sign In</h1>
+      {isLoading && <div style={{display:'flex',justifyContent:'center'}}><Loader/></div>}
      <Form onSubmit={submitHandler}>
       <Form.Group className="my-2" controlId="email">
         <Form.Label>Email Address</Form.Label>
@@ -99,7 +100,6 @@ const LoginScreen = () => {
 </Form.Group>
 
 
-       {isLoading && <Loader/>}
       <Button type="submit" variant="primary" className="mt-3">
         Sign In
       </Button>

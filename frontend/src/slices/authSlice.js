@@ -6,7 +6,8 @@ const initialState = {
         : null,
         adminInfo: localStorage.getItem('adminInfo')
             ? JSON.parse(localStorage.getItem('adminInfo'))
-            : null
+            : null,
+            isPasswordVisible: false,
 };
 
 const authSlice = createSlice({
@@ -28,10 +29,13 @@ const authSlice = createSlice({
         adminLogout: (state) => {
             state.adminInfo = null;
             localStorage.removeItem('adminInfo');
-        }
+        },
+        togglePasswordVisibility: (state) => {
+            state.isPasswordVisible = !state.isPasswordVisible;
+          },
     }
 });
 
-export const { setCredentials, logout,setAdminCredentials, adminLogout} = authSlice.actions;
+export const { setCredentials, logout,setAdminCredentials, adminLogout,togglePasswordVisibility} = authSlice.actions;
 
 export default authSlice.reducer;

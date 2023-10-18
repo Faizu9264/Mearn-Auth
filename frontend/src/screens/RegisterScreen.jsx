@@ -10,6 +10,7 @@ import { useRegisterMutation } from "../slices/usersApiSlice";
 import{setCredentials} from '../slices/authSlice'
 import './Register.css'
 import { faTimes ,faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 const RegisterScreen = () => {
@@ -17,7 +18,7 @@ const RegisterScreen = () => {
     const [name,setName] = useState('')
     const [password,setPassword ] = useState('')
     const [confirmPassword,setConfirmPassword ] = useState('')
-    
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
     const navigate = useNavigate();
     const dispatch  = useDispatch();
@@ -31,7 +32,23 @@ const RegisterScreen = () => {
       }
     },[navigate,userInfo])
 
-     
+    const passwordStyles = {
+      passwordInput: {
+        position: 'relative'
+      },
+      passwordToggle: {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        right: '10px',
+        cursor: 'pointer'
+      }
+    };
+    const togglePasswordVisibility = () => {
+      setPasswordVisible(!passwordVisible);
+    };
+    
+
     const isStrongPassword = (password) => {
       const rules = {
           length: password.length >= 8,
@@ -122,13 +139,17 @@ const RegisterScreen = () => {
 
       <Form.Group className="my-2" controlId="password">
         <Form.Label>Password</Form.Label>
+        <div style={passwordStyles.passwordInput}>
         <Form.Control
-        type="password"
+         type={passwordVisible ? "text" : "password"}
         placeholder="Enter Password"
         value={password}
         onChange={(e)=>{ setPassword(e.target.value)}}
-        >
-        </Form.Control>
+        />
+          <div style={passwordStyles.passwordToggle} onClick={togglePasswordVisibility}>
+      {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+    </div>
+  </div>
         <div className="password-strength">
   {password.length >= 1 && (
     <div className={`strength-rule ${isStrongPassword(password).length ? 'valid' : ''}`}>
