@@ -71,7 +71,7 @@ const LoginScreen = () => {
     return ( 
     <FormContainer>
       <h1>Sign In</h1>
-      {isLoading && <div style={{display:'flex',justifyContent:'center'}}><Loader/></div>}
+      {isLoading && <div style={{display:'flex',justifyContent:'center '}}><Loader/></div>}
      <Form onSubmit={submitHandler}>
       <Form.Group className="my-2" controlId="email">
         <Form.Label>Email Address</Form.Label>

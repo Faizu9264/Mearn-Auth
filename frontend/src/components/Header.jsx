@@ -7,6 +7,8 @@ import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import { Modal, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import {toast} from 'react-toastify'
+
 
 const Header = () => {
     const { userInfo } = useSelector(state => state.auth);
@@ -31,6 +33,7 @@ const Header = () => {
             dispatch(logout());
             navigate('/');
             handleCloseLogoutModal();
+            toast.success('Logout Success');
         } catch (err) {
             console.log(err);
         }

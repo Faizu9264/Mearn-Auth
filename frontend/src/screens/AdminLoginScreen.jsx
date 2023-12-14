@@ -7,11 +7,13 @@ import { useAdminLoginMutation } from "../slices/adminApiSlice";
 import { setAdminCredentials } from "../slices/authSlice";
 import { toast } from 'react-toastify';
 import Loader from "../components/Loader";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 const AdminLoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -27,6 +29,23 @@ const AdminLoginScreen = () => {
         }
     }, [navigate, adminInfo]);
 
+    const passwordStyles = {
+        passwordInput: {
+          position: 'relative'
+        },
+        passwordToggle: {
+          position: 'absolute',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          right: '10px',
+          cursor: 'pointer'
+        }
+      };
+
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+      };
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -56,13 +75,17 @@ const AdminLoginScreen = () => {
 
                 <Form.Group className="my-2" controlId="password">
                     <Form.Label>Password</Form.Label>
+                    <div style={passwordStyles.passwordInput}>
                     <Form.Control
-                        type="password"
+                         type={passwordVisible ? "text" : "password"}
                         placeholder="Enter Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                    >
-                    </Form.Control>
+                    />
+                         <div style={passwordStyles.passwordToggle} onClick={togglePasswordVisibility}>
+                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+               </div>
+         </div>
                 </Form.Group>
 
 
